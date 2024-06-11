@@ -15,4 +15,12 @@ class Post extends Model
         'auth_id',
         'tags',
     ];
+
+    public static function store($request, $id = null)
+    {
+        // Ensure you only get the parameters that match your fillable attributes
+        $data = $request->only('title', 'content', 'tags','auth_id'); 
+        $post = self::updateOrCreate(['id' => $id], $data);
+        return $post;
+    }
 }
