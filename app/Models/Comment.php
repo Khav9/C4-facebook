@@ -18,13 +18,14 @@ class Comment extends Model
         return $data;
     }
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'comment_id','id');
+    }
 
-    // public function post()
-    // {
-    //     return $this->belongsTo(Post::class);
-    // }
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
 }

@@ -41,7 +41,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        
+
         $request->validate([
             'text' => 'required|string|max:1000',
         ]);
@@ -69,16 +69,76 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $post_id, string $id)
     {
-        //
+        $user = Auth::user();
+        $comment = Comment::where('post_id', $post_id)->where('id', $id)->first();
+
+        if (!$comment) {
+            return response()->json(['message' => 'Comment not found'], 404);
+        }
+
+        if ($comment->auth_id !== $user->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $validatedData = $request->validate([
+            'text' => 'required|string|max:1000',
+        ]);
+
+        $comment->text = $validatedData['text'];
+        $comment->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Comment updated successfully',
+        ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $post_id, string $id)
     {
-        //
+        // Retrieve the comment
+        $user = Auth::user();
+        // $comment = Comment::find($id);
+        $comment = Comment::where('post_id', $post_id)->where('id', $id)->first();
+
+        if (!$comment) {
+            return response()->json(['message' => 'Comment not found'], 404);
+        }
+        if ($comment->auth_id !== $user->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        // // Delete the comment
+        $comment->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Comment deleted successfully',
+        ], 200);
     }
+
+    // app/Http/Controllers/CommentController.php
+
+    // public function destroy($post_id, $comment_id)
+    // {
+    //     // Retrieve the comment based on post_id and comment_id
+    //     $comment = Comment::where('post_id', $post_id)->where('id', $comment_id)->first();
+
+    //     if (!$comment) {
+    //         return response()->json(['message' => 'Comment not found'], 404);
+    //     }
+
+    //     // Check if the authenticated user is the owner of the comment
+    //     if ($comment->user_id !== Auth::id()) {
+    //         return response()->json(['message' => 'Unauthorized'], 403);
+    //     }
+
+    //     // Delete the comment
+    //     $comment->delete();
+
+    //     return response()->json(['message' => 'Comment deleted successfully'], 200);
+    // }
 }

@@ -17,7 +17,9 @@ class PostResource extends JsonResource
         return [
             "id" => $this->id,
             "title" => $this->title,
-            "comments" => $this->comments,
+            "content" => $this->content,
+            "created_at" => $this->created_at->format('Y-m-d'),
+            "comments" => CommentPostResource::collection($this->comments),
         ];
     }
 }

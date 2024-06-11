@@ -62,7 +62,7 @@ class PostController extends Controller
             return response()->json(['status' => false, 'message' => 'Post not found or unauthorized'], 404);
         }
 
-        return response()->json(['status' => true, 'data' => $post], 200);
+        return response()->json(['status' => true, 'data' =>new PostResource($post)], 200);
     }
 
     /**
@@ -119,5 +119,12 @@ class PostController extends Controller
             'data'  => $posts,
         ]);
     }
+    // public function allPost(){
+    //     $posts = Post::all();
+    //     return response()->json([
+    //         'success' => true,
+    //         'data'  => PostResource::collection($posts),
+    //     ]);
+    // }
     
 }
