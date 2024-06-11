@@ -19,7 +19,7 @@ class PostController extends Controller
         $posts = Post::where('auth_id', $user->id)->get(); 
         $posts = PostResource::collection($posts);
 
-        return response()->json(['status' => true, 'data' => $posts], 200);
+        return response()->json(['status' => true, 'data' => $posts]);
     }
 
     /**
