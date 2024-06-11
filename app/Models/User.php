@@ -25,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image',
     ];
 
     /**
@@ -49,4 +50,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public static function store($request, $id = null){
+        $data = $request->all();
+        $data = self::updateOrCreate(['id' => $id], $data);
+        return $data;
+    }
+
 }
