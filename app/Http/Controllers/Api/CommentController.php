@@ -23,24 +23,38 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     $request->validate([
+    //         'text' => 'required|string|max:1000',
+    //         'auth_id' => $user->id,
+    //         'post_id' => $request->id,
+    //     ]);
+    //     $comment = Comment::create($request);
+    //     return response()->json([
+    //         'message' => 'Comment added successfully',
+    //         'comment' => $comment
+    //     ], 201);
+    // }
+
     public function store(Request $request)
     {
         $user = Auth::user();
+        
         $request->validate([
-            'content' => 'required|string|max:1000',
+            'text' => 'required|string|max:1000',
         ]);
 
-        // $post = Post::findOrFail($postId);
-
-        // $comment = new Comment();
-        // $comment->content = $request->content;
-        // $comment->user_id = Auth::id();
-        // $comment->post_id = $post->id;
-        // $comment->save();
+        $comment = Comment::create([
+            'text' => $request->text,
+            'auth_id' => $user->id,
+            'post_id' => $request->id,
+        ]);
 
         return response()->json([
             'message' => 'Comment added successfully',
-            'comment' => $user
+            'comment' => $comment
         ], 201);
     }
 

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comment extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['text', 'post_id',];
+    protected $fillable = ['text', 'post_id','auth_id'];
 
     public static function store($request, $id = null)
     {
@@ -18,8 +18,13 @@ class Comment extends Model
         return $data;
     }
 
-    public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+
+    // public function post()
+    // {
+    //     return $this->belongsTo(Post::class);
+    // }
 }

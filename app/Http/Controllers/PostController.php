@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -16,6 +17,7 @@ class PostController extends Controller
     {
         $user = Auth::user();
         $posts = Post::where('auth_id', $user->id)->get(); 
+        $posts = PostResource::collection($posts);
 
         return response()->json(['status' => true, 'data' => $posts], 200);
     }
@@ -108,6 +110,14 @@ class PostController extends Controller
         }
         $post->delete();
         return response()->json(['status' => true, 'message'=>'Post delete successfully'], 200);
+    }
+
+    public function allPost(){
+        $posts = Post::all();
+        return response()->json([
+            'success' => true,
+            'data'  => $posts,
+        ]);
     }
     
 }
