@@ -32,6 +32,7 @@ Route::get('/user/list', [UserController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/user/profile', [UserController::class, 'show']);
   Route::put('/user/profile/update', [UserController::class, 'update']);
+  Route::post('/user/upload-profile', [UserController::class, 'uploadProfile']);
 
 });
 
