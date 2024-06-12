@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PostResource extends JsonResource
+class PostShowResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class PostResource extends JsonResource
             "content" => $this->content,
             "created_at" => $this->created_at->format('Y-m-d'),
             "comments" => CommentPostResource::collection($this->comments),
-            "reactions"=>$this->likes->count()
+            "reactions"=>$this->likes
         ];
     }
 }

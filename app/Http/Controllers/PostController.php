@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
+use App\Http\Resources\PostShowResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +63,7 @@ class PostController extends Controller
             return response()->json(['status' => false, 'message' => 'Post not found or unauthorized'], 404);
         }
 
-        return response()->json(['status' => true, 'data' =>new PostResource($post)], 200);
+        return response()->json(['status' => true, 'data' =>new PostShowResource($post)], 200);
     }
 
     /**
