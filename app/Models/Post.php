@@ -23,4 +23,16 @@ class Post extends Model
         $post = self::updateOrCreate(['id' => $id], $data);
         return $post;
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }

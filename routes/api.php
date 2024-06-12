@@ -38,8 +38,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 
-Route::get('/comment/list', [CommentController::class, 'index'])->name('comment.list');
-Route::post('/comment/create', [CommentController::class, 'store'])->middleware('auth:sanctum');
+// Route::get('/comment/list',[CommentController::class, 'index'])->name('comment.list');
+
+Route::middleware('auth:sanctum')->group(function (){
+    Route::post('post/{id}/comment/create',[CommentController::class, 'store']);
+    Route::delete('post/{post_id}/comment/delete/{id}',[CommentController::class, 'destroy']);
+    Route::put('post/{post_id}/comment/update/{id}',[CommentController::class, 'update']);
+});
+
 
 Route::middleware('auth:sanctum')->prefix('post')->group(function () {
   Route::get('/list', [PostController::class, 'index']);
@@ -53,3 +59,4 @@ Route::middleware('auth:sanctum')->prefix('post')->group(function () {
 
 Route::post('like-unlike-post', [LikeController::class, 'store'])->middleware('auth:sanctum');
 
+Route::get('posts', [PostController::class, 'allPost']);
