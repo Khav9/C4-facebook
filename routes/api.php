@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\FriendshipController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\APi\MediaController;
 use App\Http\Controllers\AuthController;
@@ -61,3 +62,10 @@ Route::middleware('auth:sanctum')->prefix('post')->group(function () {
 Route::post('like-unlike-post', [LikeController::class, 'store'])->middleware('auth:sanctum');
 
 Route::get('posts', [PostController::class, 'allPost']);
+
+Route::middleware('auth:sanctum')->group(function () {
+  Route::post('friends/add/{id}', [FriendshipController::class, 'sendRequest']);
+  Route::post('friends/accept/{id}', [FriendshipController::class, 'acceptRequest']);
+  Route::post('friends/reject/{id}', [FriendshipController::class, 'rejectRequest']);
+  Route::get('friends/list', [FriendshipController::class, 'index']);
+});

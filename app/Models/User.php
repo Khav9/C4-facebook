@@ -11,10 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory;
-    use Notifiable;
-    use HasRoles;
-    use HasApiTokens;
+    use HasFactory, Notifiable, HasRoles, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -51,7 +48,8 @@ class User extends Authenticatable
         ];
     }
 
-    public static function store($request, $id = null){
+    public static function store($request, $id = null)
+    {
         $data = $request->all();
         $data = self::updateOrCreate(['id' => $id], $data);
         return $data;
@@ -62,4 +60,26 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    //friend
+
+    public  function friends()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'accepted');
+    }
+
+    public function friendRequests()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'friend_id', 'user_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'pending');
+    }
+
+    public function sentRequests()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'pending');
+    }
 }
