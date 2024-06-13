@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\FollowController;
+use App\Http\Controllers\Api\FriendshipController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\APi\MediaController;
 use App\Http\Controllers\AuthController;
@@ -65,3 +66,10 @@ Route::get('followers/list', [FollowController::class, 'index'])->middleware('au
 
 
 Route::get('posts', [PostController::class, 'allPost']);
+
+Route::middleware('auth:sanctum')->group(function () {
+  Route::post('friends/add/{id}', [FriendshipController::class, 'sendRequest']);
+  Route::post('friends/accept/{id}', [FriendshipController::class, 'acceptRequest']);
+  Route::post('friends/reject/{id}', [FriendshipController::class, 'rejectRequest']);
+  Route::get('friends/list', [FriendshipController::class, 'index']);
+});

@@ -15,12 +15,12 @@ class FollowController extends Controller
     {
 
         $user = auth()->user(); // Assuming you are using Laravel's built-in authentication
-        $followers = Follow::where('follow_id', $user->id)->get();
+        $followers = Follow::where('user_id', $user->id)->get();
 
         return response()->json([
             'status' => true,
             'data' => $followers,
-            'followers_count' => $followers,
+            'followers_count' => $followers->count(),
         ]);
 
     }
