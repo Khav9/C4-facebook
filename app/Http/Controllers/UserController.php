@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\usershowresource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class UserController extends Controller
     public function show()
     {
         $user = Auth::user();
+        $user = new usershowresource($user);
         return response()->json([
             'success' => true,
             'message' => true,

@@ -35,6 +35,11 @@ class FollowController extends Controller
         ]);
 
         $user = $request->user();
+    // Check if the user is trying to follow themselves
+    if ($user->id === (int) $request->user_id) {
+        return response()->json(['message' => 'You cannot follow yourself.'], 400);
+    }
+
         $follower = Follow::where('user_id', $request->user_id)
             ->where('following_id', $user->id)
             ->first();
@@ -65,10 +70,6 @@ class FollowController extends Controller
             }
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         // Implement logic to show a specific follow relationship if needed

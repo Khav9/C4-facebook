@@ -82,4 +82,8 @@ class User extends Authenticatable
             ->withPivot('status')
             ->wherePivot('status', 'pending');
     }
+
+    public function following(){
+        return $this->hasMany(Follow::class);
+    }
 }
