@@ -7,6 +7,7 @@ use App\Http\Resources\PostShowResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -26,13 +27,35 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         // Validate the incoming request data
         $user = auth()->user();
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
+            'tags' => 'nullable|string',
+            'content' => 'nullable|string',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'videos.*' => 'mimes:mp4,mov,ogg,qt|max:20000' // Adjust max size as needed
         ]);
+
+        $imagePaths = null;
+        $videoPaths = null;
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('post/images', 'public');
+                $imagePaths[] = Storage::url($path);
+            }
+        }
+
+        if ($request->hasFile('videos')) {
+            foreach ($request->file('videos') as $video) {
+                $path = $video->store('post/videos', 'public');
+                $videoPaths[] = Storage::url($path);
+            }
+        }
 
         // Create the post using the authenticated user's ID
         $post = Post::create([
@@ -40,6 +63,8 @@ class PostController extends Controller
             'tags' => $request->tags,
             'content' => $request->content,
             'auth_id' => $user->id,
+            'images' => json_encode($imagePaths),
+            'videos' => json_encode($videoPaths),
         ]);
 
         return response()->json([
@@ -48,6 +73,7 @@ class PostController extends Controller
             "data" => $post
         ], 201);
     }
+
 
     /**
      * Display the specified resource.

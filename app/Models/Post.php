@@ -9,11 +9,11 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'content',
-        'auth_id',
-        'tags',
+    protected $fillable = ['title', 'content', 'tags', 'auth_id', 'images', 'videos'];
+
+    protected $casts = [
+        'images' => 'array',
+        'videos' => 'array',
     ];
 
     public static function store($request, $id = null)

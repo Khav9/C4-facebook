@@ -9,19 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('content')->nullable();
-            $table->integer('auth_id');
-            $table->string('images')->nullable();
-            $table->string('videos')->nullable();
             $table->string('tags')->nullable();
+            $table->foreignId('auth_id')->constrained('users')->onDelete('cascade');
+            $table->json('images')->nullable();
+            $table->json('videos')->nullable();
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.
