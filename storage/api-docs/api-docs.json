@@ -1,0 +1,664 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swagger with Laravel",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/user/list": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get a list of users",
+                "operationId": "bad3a31a2a6013c0ca90db9323ce3c51",
+                "responses": {
+                    "200": {
+                        "description": "List of users"
+                    }
+                }
+            }
+        },
+        "/api/user/profile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Specific user profile",
+                "operationId": "getUserProfile",
+                "responses": {
+                    "200": {
+                        "description": "User profile"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/profile/update": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Specific user profile",
+                "operationId": "updateUser",
+                "responses": {
+                    "200": {
+                        "description": "update user"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Provide your name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Provide your email",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Provide your password",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Log in",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "profile_image": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Log out",
+                "operationId": "logoutUser",
+                "responses": {
+                    "200": {
+                        "description": "logut user"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Detail user",
+                "operationId": "detailUser",
+                "responses": {
+                    "200": {
+                        "description": "me"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/posts": {
+            "get": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "All post in system",
+                "operationId": "posts",
+                "responses": {
+                    "200": {
+                        "description": "all post"
+                    }
+                }
+            }
+        },
+        "/api/post/list": {
+            "get": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "All post of user",
+                "operationId": "posts",
+                "responses": {
+                    "200": {
+                        "description": "user's post"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/post/create": {
+            "post": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "create a post",
+                "operationId": "create",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "tags": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "title"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "create post of user"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/post/show/{id}": {
+            "get": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Get user's post by ID",
+                "operationId": "post",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Provide post ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user's post"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/post/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Delete post's user by ID",
+                "operationId": "post",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Provide post ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user's post"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/post/{id}/comment/create": {
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "create a comment",
+                "operationId": "create",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "text": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "text"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "create comment of post"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/post/{post_id}/comment/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Delete post's user by ID",
+                "operationId": "post",
+                "parameters": [
+                    {
+                        "name": "post_id",
+                        "in": "path",
+                        "description": "Provide post ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Provide comment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user's post"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/post/like-unlike-post": {
+            "post": {
+                "tags": [
+                    "Like-Unlike"
+                ],
+                "summary": "create a comment",
+                "operationId": "create",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "post_id": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "post_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "like-unlike of post"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/follow-unfollow": {
+            "post": {
+                "tags": [
+                    "Follow"
+                ],
+                "summary": "follow or unfollow user",
+                "operationId": "create",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "user_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "follow-unfollow of user"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/followers/list": {
+            "get": {
+                "tags": [
+                    "Follow"
+                ],
+                "summary": "followers' user",
+                "operationId": "create",
+                "responses": {
+                    "200": {
+                        "description": "followers of user"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/friend/add/{id}": {
+            "post": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "Add friend",
+                "operationId": "post",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "user ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user's post"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/friend/accept/{id}": {
+            "post": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "Accept friend",
+                "operationId": "post",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "user ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Accept friend"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/friend/reject/{id}": {
+            "post": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "Reject friend",
+                "operationId": "post",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "user ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reject friend"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/friend/list": {
+            "get": {
+                "tags": [
+                    "Friend"
+                ],
+                "summary": "List friend",
+                "operationId": "post",
+                "responses": {
+                    "200": {
+                        "description": "List friend"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

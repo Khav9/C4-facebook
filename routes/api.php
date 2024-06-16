@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login']);
 // Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 Route::middleware('auth:sanctum')->group(function () {
   Route::post('/logout', [AuthController::class, 'logout']);
@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/user/list', [UserController::class, 'index']);
+Route::get('user/list', [UserController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/user/profile', [UserController::class, 'show']);
   Route::put('/user/profile/update', [UserController::class, 'update']);
@@ -61,15 +61,15 @@ Route::middleware('auth:sanctum')->prefix('post')->group(function () {
 
 
 Route::post('like-unlike-post', [LikeController::class, 'store'])->middleware('auth:sanctum');
-Route::post('follow-unlike-user',[FollowController::class,'store'])->middleware('auth:sanctum');
+Route::post('follow-unfollow-user',[FollowController::class,'store'])->middleware('auth:sanctum');
 Route::get('followers/list', [FollowController::class, 'index'])->middleware('auth:sanctum');
 
 
 Route::get('posts', [PostController::class, 'allPost']);
 
 Route::middleware('auth:sanctum')->group(function () {
-  Route::post('friends/add/{id}', [FriendshipController::class, 'sendRequest']);
-  Route::post('friends/accept/{id}', [FriendshipController::class, 'acceptRequest']);
-  Route::post('friends/reject/{id}', [FriendshipController::class, 'rejectRequest']);
-  Route::get('friends/list', [FriendshipController::class, 'index']);
+  Route::post('friend/add/{id}', [FriendshipController::class, 'sendRequest']);
+  Route::post('friend/accept/{id}', [FriendshipController::class, 'acceptRequest']);
+  Route::post('friend/reject/{id}', [FriendshipController::class, 'rejectRequest']);
+  Route::get('friend/list', [FriendshipController::class, 'index']);
 });

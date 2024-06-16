@@ -11,6 +11,27 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
+/**
+ * @OA\Get(
+ *     path="/api/user/list",
+ *     summary="Get a list of users",
+ *     tags={"User"},
+ *     @OA\Parameter(
+ *         name="name",
+ *         in="query",
+ *         description="Provide your name",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="string"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of users",
+ *     ),
+ * )
+ */
+
 class UserController extends Controller
 {
     public function me(Request $request): JsonResponse
@@ -21,7 +42,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $users = User::all();
         return response()->json([
