@@ -14,13 +14,13 @@ class FollowController extends Controller
     public function index()
     {
 
-        $user = auth()->user(); // Assuming you are using Laravel's built-in authentication
+        $user = auth()->user(); 
         $followers = Follow::where('user_id', $user->id)->get();
 
         return response()->json([
             'status' => true,
+            'following_count' => $followers->count(),
             'data' => $followers,
-            'followers_count' => $followers->count(),
         ]);
 
     }
@@ -31,11 +31,10 @@ class FollowController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id', // Assuming 'user_id' should reference a valid user
+            'user_id' => 'required|exists:users,id', 
         ]);
 
         $user = $request->user();
-    // Check if the user is trying to follow themselves
     if ($user->id === (int) $request->user_id) {
         return response()->json(['message' => 'You cannot follow yourself.'], 400);
     }
@@ -47,7 +46,6 @@ class FollowController extends Controller
         if (!$follower) {
             $follower = new Follow();
             $follower->user_id = $user->id;
-            $follower->following_id = $request->user_id;; // Assuming 'follower_id' is the correct column name
 
             if ($follower->save()) {
                 return response()->json([

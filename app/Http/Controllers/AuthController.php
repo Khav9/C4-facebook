@@ -56,9 +56,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // Check if a file is uploaded
         if ($request->hasFile('profile_image')) {
-            // Store the uploaded file
             $image = $request->file('profile_image');
             $path = $image->store('profile_images', 'public');
             $path = Storage::url($path);

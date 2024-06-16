@@ -18,6 +18,8 @@ class PostResource extends JsonResource
             "id" => $this->id,
             "title" => $this->title,
             "content" => $this->content,
+            "images" => $this->images,
+            "videos" => $this->videos,
             "created_at" => $this->created_at->format('Y-m-d'),
             "comments" => CommentPostResource::collection($this->comments),
             "reactions"=>$this->likes->count()

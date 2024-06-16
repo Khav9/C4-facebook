@@ -23,41 +23,29 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request data
         $validator = Validator::make($request->all(), [
             'post_id' => 'required',
         ]);
     
-        // Check if the validation fails
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ], 422);
         }
-    
-        // Get the validated data
         $data = $validator->validated();
-    
-        // Get the authenticated user
         $user = Auth::user();
-        // Debugging dump (this can be removed in production)
-        // dd($user);
-    
-        // Check if the like already exists
-        $like = Like::where('auth_id', $user->id)
+        $like = Like::where('user_id', $user->id)
             ->where('post_id', $data['post_id'])
             ->first();
     
         if ($like) {
-            // If the like exists, delete it (unlike)
             $like->delete();
             return response()->json([
                 'message' => 'You unliked a post',
             ], 200);
         } else {
-            // If the like does not exist, create a new like
             $like = new Like();
-            $like->auth_id = $user->id;
+            $like->user_id = $user->id;
             $like->post_id = $data['post_id'];
             
             if ($like->save()) {

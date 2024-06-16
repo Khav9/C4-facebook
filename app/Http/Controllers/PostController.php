@@ -37,7 +37,7 @@ class PostController extends Controller
             'tags' => 'nullable|string',
             'content' => 'nullable|string',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'videos.*' => 'mimes:mp4,mov,ogg,qt|max:20000' // Adjust max size as needed
+            'videos.*' => 'mimes:mp4,mov,ogg,qt|max:20000' 
         ]);
 
         $imagePaths = null;
@@ -56,8 +56,6 @@ class PostController extends Controller
                 $videoPaths[] = Storage::url($path);
             }
         }
-
-        // Create the post using the authenticated user's ID
         $post = Post::create([
             'title' => $validatedData['title'],
             'tags' => $request->tags,
@@ -79,12 +77,10 @@ class PostController extends Controller
      * Display the specified resource.
      */public function show(string $id)
     {
-        $user = Auth::user(); // Get the authenticated user
-        
-        // Find the post by its ID and ensure it belongs to the authenticated user
+        $user = Auth::user();
+    
         $post = Post::where('auth_id', $user->id)->find($id);
 
-        // Check if the post exists and belongs to the user
         if (!$post) {
             return response()->json(['status' => false, 'message' => 'Post not found or unauthorized'], 404);
         }
@@ -97,26 +93,21 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post,string $id)
     {
-        $user = Auth::user(); // Get the authenticated user
+        $user = Auth::user();
         
-        // Find the post by its ID and ensure it belongs to the authenticated user
         $post = Post::where('auth_id', $user->id)->find($id);
 
-        // Check if the post exists and belongs to the user
         if (!$post) {
             return response()->json(['success' => false, 'message' => 'Post not found or unauthorized'], 404);
         }
 
-        // Validate the request data
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'tags' => 'nullable|string',
         ]);
 
-        // Update the post with validated data
         $post->update($validatedData);
-
         return response()->json(["success" => true, "message" => "Post updated successfully", "data" => $post], 200);
     }
     
@@ -126,12 +117,10 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = Auth::user(); // Get the authenticated user
+        $user = Auth::user(); 
         
-        // Find the post by its ID and ensure it belongs to the authenticated user
         $post = Post::where('auth_id', $user->id)->find($id);
 
-        // Check if the post exists and belongs to the user
         if (!$post) {
             return response()->json(['status' => false, 'message' => 'Post not found or unauthorized'], 404);
         }
@@ -145,13 +134,5 @@ class PostController extends Controller
             'success' => true,
             'data'  => $posts,
         ]);
-    }
-    // public function allPost(){
-    //     $posts = Post::all();
-    //     return response()->json([
-    //         'success' => true,
-    //         'data'  => PostResource::collection($posts),
-    //     ]);
-    // }
-    
+    }    
 }

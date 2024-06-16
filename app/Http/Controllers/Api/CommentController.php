@@ -20,24 +20,6 @@ class CommentController extends Controller
         return response()->json(['success' => true, 'data' => $comments, 'message' => 'Comments successfully'], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $request->validate([
-    //         'text' => 'required|string|max:1000',
-    //         'auth_id' => $user->id,
-    //         'post_id' => $request->id,
-    //     ]);
-    //     $comment = Comment::create($request);
-    //     return response()->json([
-    //         'message' => 'Comment added successfully',
-    //         'comment' => $comment
-    //     ], 201);
-    // }
-
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -101,9 +83,7 @@ class CommentController extends Controller
      */
     public function destroy(string $post_id, string $id)
     {
-        // Retrieve the comment
         $user = Auth::user();
-        // $comment = Comment::find($id);
         $comment = Comment::where('post_id', $post_id)->where('id', $id)->first();
 
         if (!$comment) {
@@ -112,7 +92,6 @@ class CommentController extends Controller
         if ($comment->auth_id !== $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
-        // // Delete the comment
         $comment->delete();
         return response()->json([
             'success' => true,
@@ -120,25 +99,4 @@ class CommentController extends Controller
         ], 200);
     }
 
-    // app/Http/Controllers/CommentController.php
-
-    // public function destroy($post_id, $comment_id)
-    // {
-    //     // Retrieve the comment based on post_id and comment_id
-    //     $comment = Comment::where('post_id', $post_id)->where('id', $comment_id)->first();
-
-    //     if (!$comment) {
-    //         return response()->json(['message' => 'Comment not found'], 404);
-    //     }
-
-    //     // Check if the authenticated user is the owner of the comment
-    //     if ($comment->user_id !== Auth::id()) {
-    //         return response()->json(['message' => 'Unauthorized'], 403);
-    //     }
-
-    //     // Delete the comment
-    //     $comment->delete();
-
-    //     return response()->json(['message' => 'Comment deleted successfully'], 200);
-    // }
 }
